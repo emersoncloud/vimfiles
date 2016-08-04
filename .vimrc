@@ -1,160 +1,140 @@
-set nocompatible              		" be iMproved, required
+set nocompatible
+filetype off
+"haha This isnt doing anything 
 
-so ~/.vim/plugins.vim
+" set the runtime path to include Vundle and initialize
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
+" alternatively, pass a path where Vundle should install plugins
+"call vundle#begin('~/some/path/here')
 
-"----------------------------------------Auto-Commands----------------------------------------
+" let Vundle manage Vundle, required
+Plugin 'VundleVim/Vundle.vim'
+Plugin 'scrooloose/nerdtree'
+Plugin 'leafgarland/typescript-vim.git'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-unimpaired'
+Plugin 'tomtom/tcomment_vim'
+Plugin 'scrooloose/syntastic'
+Plugin 'ctrlpvim/ctrlp.vim'
+"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Townk/vim-autoclose'
+"tmux vim navigator
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'vim-airline/vim-airline'
+Plugin 'vim-airline/vim-airline-themes'
+
+Plugin 'morhetz/gruvbox'
+
+Plugin 'chriskempson/base16-vim'
+
+Plugin 'nanotech/jellybeans.vim'
+
+
+" All of your Plugins must be added before the following line
+call vundle#end()            " required
+filetype plugin indent on    " required
+
+
+let mapleader = ','
+let maplocalleader = "\\"
+
+"set rtp+=/usr/local/lib/python2.7/dist-packages/powerline/bindings/vim/
+
+" Always show statusline
+"set laststatus=2
+
+
+ set t_Co=256
+" set background=dark
+colorscheme elflord
+
+set laststatus=2
+
+
 syntax on
-colorscheme atom-dark-256
-"colorscheme desert  			"for compatability
-"Automaticlaly source the vimrc on save
-augroup autosourcing
-	autocmd!
-	autocmd BufWritePost .vimrc source %
-augroup END
-filetype plugin indent on
-let mapleader = ','                      "default leader is \, but , is much better
-set number                               "activates line numbers
-set noerrorbells visualbell t_vb=        "no error bells
 
 
-"----------------------------------------Visuals----------------------------------------
+set nowrap
+set sidescroll=5
+set listchars+=precedes:<,extends:>
+
+highlight LineNr ctermfg=grey
+
+autocmd FileType html,javascript setlocal ai ts=2 sw=2 sts=2 et
+
+set backspace=indent,eol,start
+set ruler
+set showcmd
+set showmatch
+" set nowrap
+"set backupdir=~/.tmp
+"set directory=~/.tmp
+
+set sw=4
+set expandtab
+set smarttab
+set ignorecase smartcase
+set number
+
+let g:AutoCloseExpandSpace = 0 "Make iabbrev work again
+
+nnoremap <leader>- ddp
+nnoremap <leader>_ ddP
+
+" erase current line
+nnoremap <leader>e ddO<esc>
+
+inoremap <leader><c-u> <esc>viwUi
+inoremap <leader><c-d> <esc>ddi
+"nnoremap <c-u> viwU
+
+:nnoremap <leader>sv :source $MYVIMRC<cr>
+:nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+
+" Mapping to insert " and ' around a word
+nnoremap <leader>" viw<esc>a"<esc>hbi"<esc>lel"  
+nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel'
+
+"Use H to go to the begging of a line and L to go to the end
+nnoremap H 0
+nnoremap L $
+
+" in visual mode surround highlighted text with " or '
+vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>`>ll
+vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>`>ll
+
+"Change how to exit insert mode
+inoremap jk <esc>
+inoremap <esc> <nop>
+
+" Add automatic commenting functions
+:autocmd FileType python nnoremap <buffer> <leader>c I#<esc>
+:autocmd FileType javascript nnoremap <buffer> <leader>c I//<esc>
 
 
 
-set linespace=15                         "set linespacings for gui vim
-set t_Co=256
-set guioptions-=e
-set guioptions-=l
-set guioptions-=L
-set guioptions-=r
-set guioptions-=R
+
+"Vim and tmux settings
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
+
+"Custom Key Bindings for vim and tmux
+let g:tmux_navigator_no_mappings = 1
+
+nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
+nnoremap <silent> <c-j> :TmuxNavigateDown<cr>
+nnoremap <silent> <c-k> :TmuxNavigateUp<cr>
+nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
+nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
+
+let g:tmux_navigator_save_on_switch = 1
 
 
-
-"----------------------------------------Search----------------------------------------
-
-
-
-set hlsearch
-set incsearch
-
-
-
-"----------------------------------------Split Management----------------------------------------
-
-
-
-set splitbelow
-set splitright
-
-nmap <C-J> <C-W><C-J>
-nmap <C-K> <C-W><C-K>
-nmap <C-L> <C-W><C-L>
-nmap <C-H> <C-W><C-H>
-
-
-
-"----------------------------------------Mappings----------------------------------------
-
-
-
-" make it easy to edit Vimrc file
-nmap <Leader>ev :tabedit $MYVIMRC<cr>
-" make it easy to edit plugins
-nmap <Leader>ep :tabedit ~/.vim/plugins.vim<cr>
-" make it easy to edit my github/vim/README file when adding in new first time setup commands
-nmap <Leader>em :tabedit ~/GitHub/vim/README.md<cr>
-nmap <Leader>es :e ~/.vim/snippets/
-" add simple highlight removal
-nmap <Leader><space> :nohlsearch<cr>
-" make NERDTree easier to toggle
-nmap <Leader><`> :NERDTreeToggle<cr>
-" make ctl p tag searching much easier - i.e function names
-nmap <c-R> :CtrlPBufTag<cr>
-" make searching recent files easier
-nmap <c-e> :CtrlPMRUFiles<cr>
-" ctl + num to switch between tabs
-map <C-S-]> gt
-map <C-S-[> gT
-map <C-1> 1gt
-map <C-2> 2gt
-map <C-3> 3gt
-map <C-4> 4gt
-map <C-5> 5gt
-map <C-6> 6gt
-map <C-7> 7gt
-map <C-8> 8gt
-map <C-9> 9gt
-map <C-0> :tablast<CR>
-
-
+"Remap increment from c-a to a-a
 "
-" Greplace.vim
 "
-set grepprg=ag						" want to use Ag for the search
 
-let g:grep_cmd_opts = '--line_numbers --noheading'
-
-
-nmap <Leader>f :tag<space>
-
-"----------------------------------------Plugins----------------------------------------
-
-
-
-"
-" Ctrlp
-"
-let g:ctrlp_custom_ignore = 'node_modules\DS_Store\|git'
-let g:ctrlp_match_window = 'top,order:ttb,min:1,max:30,results:30'
-
-"
-" NERDTree
-"
-let NERDTreeHijackNetrw = 0
-
-
-
-
-
-"----------------------------------------Syntastic----------------------------------------
-" set statusline+=%#warningmsg#				" turn off warnings
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_cpp_compiler_options = '-std=c++0x'
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_check_on_w = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_python_checkers = ['flake8']
-let g:syntastic_c_gcc_args = '-fsyntax-only'
-
-
-
-
-" notes and tips
-" - Press 'zz' to instantly center line where cursor is located
-" - :!ctags -R        generate tags for everything in current directory
-" 	- Access by ,f <query>
-" 	- If multiple tags there r different ways to see them
-" 	  	- 
-"
-"-----how to search and replace in multiple files
-" Gsearch <CR>
-" 'query'
-" select lines u want changed
-" :s /query/replacement
-" g
-" a
-" :wa
-" 
-" then done
-"
-" SURRONDING TEXT replace keys with what i want to surround with
-" cs ' "       // changes the surrounding from ' to doube quote
-" cd ' 		// deletes the surrounding '
-" cst <strong> // cahnges the surrounding tag to strong
-" S <tag>   	// creates a new surrounding tag
-"
+let g:airline_detect_modified=1
