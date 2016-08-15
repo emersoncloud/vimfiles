@@ -83,6 +83,9 @@ autocmd FileType html,javascript setlocal ai ts=2 sw=2 sts=2 et
 
 " }}}
 
+" Since I always accidentally type W instead of w
+" command W :write
+
 " Autocommands -------------------- {{{
 " Add automatic commenting functions
 autocmd FileType python nnoremap <buffer> <leader>c I#<esc>
@@ -109,6 +112,15 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel'
 "Use H to go to the begging of a line and L to go to the end
 nnoremap H 0
 nnoremap L $
+
+"Add a semicolon on the end of the line and return to the previous cursor
+"position
+nnoremap <leader>; mqA;<esc>'q
+
+"Grep search for the string under the current word and open a quick fix window
+"with the results
+" nnoremap <leader>g :silent execute "grep! -R ". shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
+
 " }}}
 
 " Insert Mode Mappings ---------------------- {{{
@@ -124,6 +136,14 @@ inoremap <leader><c-d> <esc>ddi
 " in visual mode surround highlighted text with " or '
 vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>`>ll
 vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>`>ll
+
+" }}}
+
+
+" Buffer Mappings ------------------------- {{{
+" Type leader lb to open the last buffer in a split right below the current
+" split
+nnoremap <leader>lb :execute "rightbelow vsplit " . bufname("#") <cr>
 
 " }}}
 
