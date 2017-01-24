@@ -1,7 +1,6 @@
 set nocompatible
 filetype off
 
-" Vundle Plugins ------------ {{{
 " set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
@@ -12,14 +11,13 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
 Plugin 'leafgarland/typescript-vim.git'
-Plugin 'tpope/vim-surround'
+" Plugin 'tpope/vim-surround'
 Plugin 'tpope/vim-unimpaired'
 Plugin 'tomtom/tcomment_vim'
 Plugin 'scrooloose/syntastic'
 Plugin 'ctrlpvim/ctrlp.vim'
-"Plugin 'Valloric/YouCompleteMe'
-Plugin 'Townk/vim-autoclose'
-"tmux vim navigator
+Plugin 'Valloric/YouCompleteMe'
+"Plugin 'Townk/vim-autoclose'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
@@ -27,7 +25,7 @@ Plugin 'morhetz/gruvbox'
 Plugin 'chriskempson/base16-vim'
 Plugin 'nanotech/jellybeans.vim'
 " Track the engine.
-Plugin 'SirVer/ultisnips'
+" Plugin 'SirVer/ultisnips'
 
 " Snippets are separated from the engine. Add this if you want them:
 Plugin 'honza/vim-snippets'
@@ -36,11 +34,9 @@ Plugin 'honza/vim-snippets'
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
-" }}}
 
 let mapleader = ','
 let maplocalleader = "\\"
-set foldlevelstart=0
 
 " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
 let g:UltiSnipsExpandTrigger="<tab>"
@@ -51,64 +47,52 @@ let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 let g:UltiSnipsEditSplit="vertical"
 
 
-" Vimscript file settings ----------------- {{{
+" Vimscript file settings 
 augroup filetype_vim
     autocmd!
     autocmd FileType vim setlocal foldmethod=marker
 augroup END
-" }}}
-
-" Basic Settings ----------- {{{
-" Always show statusline
-"set laststatus=2
 
 
+" Basic Settings 
  set t_Co=256
 " set background=dark
-colorscheme elflord
+colorscheme atom-dark-256
+set guifont=hack\ 12
 
 set laststatus=2
-
 let g:airline_detect_modified=1
 
 syntax on
-
 set nowrap
 set sidescroll=5
 set listchars+=precedes:<,extends:>
-
 set backspace=indent,eol,start
 set ruler
 set showcmd
 set showmatch
-" set nowrap
-"set backupdir=~/.tmp
-"set directory=~/.tmp
-
 set sw=4
 set expandtab
 set smarttab
+set autoindent
+set smartindent
 set ignorecase smartcase
 set number
+set hlsearch
 
 highlight LineNr ctermfg=grey
 
 autocmd FileType html,javascript setlocal ai ts=2 sw=2 sts=2 et
 
-" }}}
-
-" Since I always accidentally type W instead of w
-" command W :write
-
-nnoremap <leader>f :call FoldColumnToggle()<cr>
-
-function! FoldColumnToggle()
-    if &foldcolumn
-        setlocal foldcolumn=0
-    else
-        setlocal foldcolumn=4
-    endif
-endfunction
+" nnoremap <leader>f :call FoldColumnToggle()<cr>
+" 
+" function! FoldColumnToggle()
+"     if &foldcolumn
+"         setlocal foldcolumn=0
+"     else
+"         setlocal foldcolumn=4
+"     endif
+" endfunction
 
 
 nnoremap <leader>q :call QuickfixToggle()<cr>
@@ -128,21 +112,21 @@ function! QuickfixToggle()
 endfunction
 
 
-" Autocommands -------------------- {{{
+" Autocommands 
 " Add automatic commenting functions
 autocmd FileType python nnoremap <buffer> <leader>c I#<esc>
 autocmd FileType javascript nnoremap <buffer> <leader>c I//<esc>
-" }}}
 
-" Normal Mode Mappings ---------- {{{
+
+" Normal Mode Mappings 
 
 "Source the vimrc file and write to the vimrc file
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " command to delete current lines and paste before and after the current line
-nnoremap <leader>- ddp
-nnoremap <leader>_ ddP
+" nnoremap <leader>- ddp
+" nnoremap <leader>_ ddP
 
 " erase current line
 nnoremap <leader>e ddO<esc>
@@ -155,6 +139,14 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel'
 nnoremap H 0
 nnoremap L $
 
+"Use H to go to the beginning of a line and L to go to the end in visual mode
+vnoremap H 0
+vnoremap L $
+
+" Use Y to yank to the end of the line and not include the end line character
+nnoremap Y y$
+
+
 "Add a semicolon on the end of the line and return to the previous cursor
 "position
 nnoremap <leader>; mqA;<esc>'q
@@ -163,33 +155,29 @@ nnoremap <leader>; mqA;<esc>'q
 "with the results
 " nnoremap <leader>g :silent execute "grep! -R ". shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
-" }}}
 
-" Insert Mode Mappings ---------------------- {{{
+" Insert Mode Mappings 
 "Change how to exit insert mode
 inoremap jk <esc>
-inoremap <esc> <nop>
+"inoremap <esc> <nop>
 
 inoremap <leader><c-u> <esc>viwUi
 inoremap <leader><c-d> <esc>ddi
-" }}}
 
-" Visual Mode mappings --------------------- {{{
+" Visual Mode mappings 
 " in visual mode surround highlighted text with " or '
 vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>`>ll
 vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>`>ll
 
-" }}}
 
 
-" Buffer Mappings ------------------------- {{{
+" Buffer Mappings 
 " Type leader lb to open the last buffer in a split right below the current
 " split
 nnoremap <leader>lb :execute "rightbelow vsplit " . bufname("#") <cr>
 
-" }}}
 
-" Operator Mappings --------------- {{{
+" Operator Mappings 
 " Find next ( and change inside and around it
 " Find previous ( and change inside and around it
 onoremap in( :<c-u>normal! f(vi(<cr>
@@ -205,9 +193,8 @@ onoremap il{ :<c-u>normal! F}vi{<cr>
 
 onoremap an{ :<c-u>normal! f{va{<cr>
 onoremap al{ :<c-u>normal! F}va{<cr>
-" }}}
 
-" Vim and tmux settings ----- {{{
+" Vim and tmux settings 
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
@@ -223,4 +210,3 @@ nnoremap <silent> <c-l> :TmuxNavigateRight<cr>
 nnoremap <silent> <c-\> :TmuxNavigatePrevious<cr>
 
 let g:tmux_navigator_save_on_switch = 1
-" }}}
