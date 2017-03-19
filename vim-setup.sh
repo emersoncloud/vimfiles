@@ -4,10 +4,11 @@ clear
 
 echo "Setting up vim"
 
-sudo apt-get install vim
-sudo apt-get install ctagger
+sudo dnf install vim
+sudo dnf install ctagger
 cp -r .vim ~/
 cp .vimrc ~/
+
 # copy the file which will update github to reflect changes
 cp update-vim-repo.sh ~/
 
