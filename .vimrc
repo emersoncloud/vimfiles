@@ -1,74 +1,64 @@
+" ======================================
+" Early Setup
+" ======================================
+"
 set nocompatible
 filetype off
 
-" set the runtime path to include Vundle and initialize
 set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
-" alternatively, pass a path where Vundle should install plugins
-"call vundle#begin('~/some/path/here')
-
-" let Vundle manage Vundle, required
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'scrooloose/nerdtree'
-Plugin 'leafgarland/typescript-vim.git'
-" Plugin 'tpope/vim-surround'
-Plugin 'tpope/vim-unimpaired'
-Plugin 'tomtom/tcomment_vim'
+Plugin 'tpope/vim-surround' 
+Plugin 'tomtom/tcomment_vim' " automatic commenting with gc{motion}
 Plugin 'scrooloose/syntastic'
 Plugin 'ctrlpvim/ctrlp.vim'
-Plugin 'Valloric/YouCompleteMe'
-"Plugin 'Townk/vim-autoclose'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'morhetz/gruvbox'
-Plugin 'chriskempson/base16-vim'
-Plugin 'nanotech/jellybeans.vim'
-" Track the engine.
-" Plugin 'SirVer/ultisnips'
-
-" Snippets are separated from the engine. Add this if you want them:
-Plugin 'honza/vim-snippets'
-
-
-" All of your Plugins must be added before the following line
 call vundle#end()            " required
 filetype plugin indent on    " required
 
 let mapleader = ','
 let maplocalleader = "\\"
 
-" Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<c-b>"
-let g:UltiSnipsJumpBackwardTrigger="<c-z>"
-
-" If you want :UltiSnipsEdit to split your window.
-let g:UltiSnipsEditSplit="vertical"
-
-
-" Vimscript file settings 
-augroup filetype_vim
-    autocmd!
-    autocmd FileType vim setlocal foldmethod=marker
-augroup END
-
-
-" Basic Settings 
- set t_Co=256
+" =====================================
+" Colorscheme 
+" =====================================
+"
+set t_Co=256
 " set background=dark
 colorscheme atom-dark-256
-set guifont=hack\ 12
+set guifont=hack\ 11
 
+" When to show a statusline: 2 - always
 set laststatus=2
 let g:airline_detect_modified=1
 
+" Enable syntax highlighting
 syntax on
+
+" Set line wraping
 set nowrap
+
+" Use the promp '>  ' for wrapped lines.
+let &showbreak="   "
+
+"Break Lines at reasonable places instead of mid-word
+set linebreak
+
+" How far to scroll sideways when wrapping is off
 set sidescroll=5
-set listchars+=precedes:<,extends:>
+
+" set listchars+=precedes:<,extends:>
+set listchars=trail:·,nbsp:·,extends:>,precedes:<,eol:$
+
+" Allow backspace over everything in insert mode
 set backspace=indent,eol,start
+
+" Show 'ruler' at bottom (cursuor posiiton et al.).
 set ruler
+
 set showcmd
 set showmatch
 set sw=4
@@ -83,17 +73,6 @@ set hlsearch
 highlight LineNr ctermfg=grey
 
 autocmd FileType html,javascript setlocal ai ts=2 sw=2 sts=2 et
-
-" nnoremap <leader>f :call FoldColumnToggle()<cr>
-" 
-" function! FoldColumnToggle()
-"     if &foldcolumn
-"         setlocal foldcolumn=0
-"     else
-"         setlocal foldcolumn=4
-"     endif
-" endfunction
-
 
 nnoremap <leader>q :call QuickfixToggle()<cr>
 
@@ -118,15 +97,17 @@ autocmd FileType python nnoremap <buffer> <leader>c I#<esc>
 autocmd FileType javascript nnoremap <buffer> <leader>c I//<esc>
 
 
+"======================================
 " Normal Mode Mappings 
+"======================================
+"
 
 "Source the vimrc file and write to the vimrc file
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 
 " command to delete current lines and paste before and after the current line
-" nnoremap <leader>- ddp
-" nnoremap <leader>_ ddP
+ nnoremap <leader>a ddp
 
 " erase current line
 nnoremap <leader>e ddO<esc>
@@ -139,24 +120,21 @@ nnoremap <leader>' viw<esc>a'<esc>hbi'<esc>lel'
 nnoremap H 0
 nnoremap L $
 
-"Use H to go to the beginning of a line and L to go to the end in visual mode
-vnoremap H 0
-vnoremap L $
-
 " Use Y to yank to the end of the line and not include the end line character
 nnoremap Y y$
 
-
-"Add a semicolon on the end of the line and return to the previous cursor
-"position
+"Add a semicolon on the end of the line and return to the start of the line
 nnoremap <leader>; mqA;<esc>'q
 
 "Grep search for the string under the current word and open a quick fix window
 "with the results
-" nnoremap <leader>g :silent execute "grep! -R ". shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
+nnoremap <leader>g :silent execute "grep! -R ". shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
 
 
+"======================================
 " Insert Mode Mappings 
+"======================================
+
 "Change how to exit insert mode
 inoremap jk <esc>
 "inoremap <esc> <nop>
@@ -169,15 +147,23 @@ inoremap <leader><c-d> <esc>ddi
 vnoremap <leader>" <esc>`>a"<esc>`<i"<esc>`>ll
 vnoremap <leader>' <esc>`>a'<esc>`<i'<esc>`>ll
 
+"Use H to go to the beginning of a line and L to go to the end in visual mode
+vnoremap H 0
+vnoremap L $
 
-
+" ======================================
 " Buffer Mappings 
+" ======================================
+"
 " Type leader lb to open the last buffer in a split right below the current
 " split
 nnoremap <leader>lb :execute "rightbelow vsplit " . bufname("#") <cr>
 
 
+" ======================================
 " Operator Mappings 
+" ======================================
+"
 " Find next ( and change inside and around it
 " Find previous ( and change inside and around it
 onoremap in( :<c-u>normal! f(vi(<cr>
@@ -194,13 +180,17 @@ onoremap il{ :<c-u>normal! F}vi{<cr>
 onoremap an{ :<c-u>normal! f{va{<cr>
 onoremap al{ :<c-u>normal! F}va{<cr>
 
+" ======================================
 " Vim and tmux settings 
+" ======================================
+"
+" Map h, j, k, l to move between windows
 nnoremap <c-j> <c-w>j
 nnoremap <c-k> <c-w>k
 nnoremap <c-h> <c-w>h
 nnoremap <c-l> <c-w>l
 
-"Custom Key Bindings for vim and tmux
+" Custom Key Bindings for vim and tmux
 let g:tmux_navigator_no_mappings = 1
 
 nnoremap <silent> <c-h> :TmuxNavigateLeft<cr>
