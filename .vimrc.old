@@ -16,10 +16,6 @@ Plugin 'ctrlpvim/ctrlp.vim'
 Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'vim-airline/vim-airline'
 Plugin 'vim-airline/vim-airline-themes'
-Plugin 'altercation/vim-colors-solarized'
-Plugin 'valloric/youcompleteme'
-Plugin 'tpope/vim-repeat'
-Plugin 'tpope/vim-fugitive'
 call vundle#end()            " required
 filetype plugin indent on    " required
 
@@ -31,17 +27,13 @@ let maplocalleader = "\\"
 " =====================================
 "
 set t_Co=256
-set background=dark
-" colorscheme solarized
 " set background=dark
 colorscheme atom-dark-256
-set guifont=hack:h14
-" set guifont=Monaco:h16
+set guifont=hack\ 11
 
 " When to show a statusline: 2 - always
 set laststatus=2
 let g:airline_detect_modified=1
-let g:airline_detect_whitespace=0
 
 " Enable syntax highlighting
 syntax on
@@ -80,7 +72,7 @@ set hlsearch
 
 highlight LineNr ctermfg=grey
 
-autocmd FileType ruby,rb,mhtml,yml,yaml,javascript setlocal ai ts=2 sw=2 sts=2 et
+autocmd FileType html,javascript setlocal ai ts=2 sw=2 sts=2 et
 
 nnoremap <leader>q :call QuickfixToggle()<cr>
 
@@ -103,7 +95,6 @@ endfunction
 " Add automatic commenting functions
 autocmd FileType python nnoremap <buffer> <leader>c I#<esc>
 autocmd FileType javascript nnoremap <buffer> <leader>c I//<esc>
-
 
 
 "======================================
@@ -138,10 +129,6 @@ nnoremap <leader>; mqA;<esc>'q
 "Grep search for the string under the current word and open a quick fix window
 "with the results
 nnoremap <leader>g :silent execute "grep! -R ". shellescape(expand("<cWORD>")) . " ."<cr>:copen<cr>
-
-"TooooDooooo I need something to grab a line in normal mode
-"and make it so that I can easily paste it into some other spot
-"inline
 
 
 "======================================
